@@ -2,7 +2,7 @@
   <main class="my-workspace" v-if="$store.state.status == 'success'">
     <section class="folder-wrapper">
       <div class="folder-list">
-        <folder-list v-for="folder in folders" :key="'folder' + folder.id" :id="folder.id" :title="folder.name" :projects="folder.attributes.total_projects" :time="folder.attributes.created_at"/>
+        <folder-list v-for="folder in folders" :key="'folder' + folder.id" :id="folder.id" :title="folder.attributes.name" :projects="folder.attributes.total_projects" :time="folder.attributes.created_at"/>
       </div>
     </section>
     <section class="project-wrapper">
@@ -28,7 +28,6 @@ export default {
       return this.$store.state.folders
     },
     singleProjects() {
-      console.log(this.$store.state.singleProjects)
       return this.$store.state.singleProjects
     }
   },

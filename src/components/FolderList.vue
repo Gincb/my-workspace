@@ -1,19 +1,21 @@
 <template>
-  <div>
-      <folder-icon class="folder-icon" :color="'#377bdc'"/>
-      <h1>{{ title }}</h1>
-      <h2>{{ projects }} Projects</h2>
-      <h2>
-      Created on
-      {{
-          getMonthName(new Date(time)) +
-          " " +
-          new Date(time).getDate() +
-          ", " +
-          new Date(time).getFullYear()
-      }}
-      </h2>
-  </div>
+  <router-link :to="{ name:'Folder', params:{id: id}, query: {folderName: title }}">
+    <div>
+        <folder-icon class="folder-icon" :color="'#377bdc'"/>
+        <h1>{{ title }}</h1>
+        <h2>{{ projects }} Projects</h2>
+        <h2>
+        Created on
+        {{
+            getMonthName(new Date(time)) +
+            " " +
+            new Date(time).getDate() +
+            ", " +
+            new Date(time).getFullYear()
+        }}
+        </h2>
+    </div>
+  </router-link>
 </template>
 
 <script>

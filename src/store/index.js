@@ -12,14 +12,13 @@ const state = {
   token: Cookies.get('tokenType') + ' ' + Cookies.get('accessToken'),
   status: '',
   folders: {},
-  singleProjects: {}
+  singleProjects: {},
+  folderProjects: {}
 }
 
 //to handle state
 const getters = {
-  success: state => !!state.token,
   authStatus: state => state.status,
-  allFolders: (state) => state.folders
 }
 
 const actions = {
@@ -76,6 +75,20 @@ const actions = {
     (error) => {
       console.log(error)
     }
+  },
+
+  getFolderProjects({ commit }, id) {
+    axios.get('https://api.platform.sandbox.easytranslate.com/api/v1/teams/developer-account/folders/' + id,
+    {
+      Authorization: Cookies.get('tokenType') + ' ' + Cookies.get('accessToken')
+    })
+    .then(response => {
+      console.log(response.data)
+      commit('SET_FOLDER_PROJECTS', response.data.included)
+    }), 
+    (error) => {
+      console.log(error)
+    }
   }
 }
   
@@ -95,6 +108,9 @@ const mutations = {
   },
   SET_SINGLE_PROJECTS(state, singleProjects) {
     state.singleProjects = singleProjects
+  },
+  SET_FOLDER_PROJECTS(state, folderProjects) {
+    state.folderProjects = folderProjects
   }
 }
 
