@@ -1,14 +1,16 @@
 <template>
   <div id="app">
-    <h1>Hello</h1>
+    <my-workspace/>
   </div>
 </template>
 
 <script>
+import MyWorkspace from './components/MyWorkspace.vue'
 
 export default {
   name: 'App',
   components: {
+    MyWorkspace
   }
 }
 </script>
