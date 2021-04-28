@@ -2,7 +2,7 @@
   <div class="projects-folder">
     <router-link class="title-router" :to="{name: 'MyWorkspace'}">My Workspace 🠒 </router-link><span class="title-router">{{this.$route.query.folderName}}</span>
     <div class="project-list">
-      <project-list v-for="project in folderProjects" :key="'project' + project.id" :name="project.attributes.name" :identifier="project.attributes.identifier" :price="project.attributes.price.amount_euro" :sourceLanguage="project.attributes.source_language" :targetLanguages="project.attributes.target_languages" :status="project.attributes.status" :workflow="project.attributes.workflow" :progress="project.attributes.progress.percent" :createdAt="project.attributes.created_at" :updatedAt="project.attributes.updated_at"/>
+      <project-list v-for="project in folderProjects" :key="'project' + project.id" :project="project"/>
     </div>
   </div>
 </template>
@@ -19,7 +19,9 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getFolderProjects", this.$route.params.id)
+    this.$store.dispatch("getToken").then(() => {
+      this.$store.dispatch("getFolderProjects", this.$route.params.id)
+    })
   }
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div class="project">
     <div class="project-title">
-      <h1>{{ name }}</h1>
-      <span>{{ identifier }}</span>
+      <h1>{{ project.attributes.name }}</h1>
+      <span>{{ project.attributes.identifier }}</span>
     </div>
     <div class="project-content">
       <div class="project-content_date">
@@ -17,29 +17,29 @@
       </div>
       <div class="project-content_price">
         <h2>price</h2>
-        <h3>{{ price }}€</h3>
+        <h3>{{ project.attributes.price.amount_euro }}€</h3>
       </div>
       <div class="project-content_lang">
         <div class="project-content_source-lang">
           <h2>from:</h2>
-          <h3>{{ sourceLanguage }}</h3>
+          <h3>{{ project.attributes.source_language }}</h3>
         </div>
         <div class="project-content_target-lang">
           <h2>to:</h2>
           <div class="target-lang">
-            <h3 v-for="language of targetLanguages" v-bind:key="language + Math.random()">{{language}}</h3>
+            <h3 v-for="language of project.attributes.target_languages" v-bind:key="language + Math.random()">{{language}}</h3>
           </div>
         </div>
       </div>
     </div>
     <div class="project-status">
-      <div v-if="status == 'COMPLETED'" class="completed-status">
-        <h1>{{workflow.substring(0, 1).toUpperCase() + workflow.substring(1, workflow.length) + ' is ready!'}}</h1>
+      <div v-if="project.attributes.status == 'COMPLETED'" class="completed-status">
+        <h1>{{project.attributes.workflow.substring(0, 1).toUpperCase() + project.attributes.workflow.substring(1, project.attributes.workflow.length) + ' is ready!'}}</h1>
       </div>
       <div v-else class="uncompleted-status">
         <div class="progress-bar_wrapper">
-          <h1>{{progress * 100 + '% done'}}</h1>
-          <div class="progress-bar" :style="{width: progress * 100 + '%'}"></div>
+          <h1>{{project.attributes.progress.percent * 100 + '% done'}}</h1>
+          <div class="progress-bar" :style="{width: project.attributes.progress.percent * 100 + '%'}"></div>
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@
 <script>
 export default {
   name: 'ProjectList',
-  props: ['name', 'identifier', 'price', 'sourceLanguage', 'targetLanguages', 'status', 'workflow', 'progress', 'createdAt', 'updatedAt'],
+  props: ['project'],
   data () {
     return {
       creationTimeDifference: {msg: ''},
@@ -82,8 +82,8 @@ export default {
     }
   },
   created () {
-    this.getTime(this.updateTimeDifference, this.updatedAt)
-    this.getTime(this.creationTimeDifference, this.createdAt)
+    this.getTime(this.updateTimeDifference, this.project.attributes.updated_at)
+    this.getTime(this.creationTimeDifference, this.project.attributes.created_at)
   }
 }
 </script>
