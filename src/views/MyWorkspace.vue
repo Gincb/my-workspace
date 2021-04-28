@@ -2,12 +2,12 @@
   <main class="my-workspace" v-if="$store.state.status == 'success'">
     <section class="folder-wrapper">
       <div class="folder-list">
-        <folder-list v-for="folder in folders" :key="'folder' + folder.id" :id="folder.id" :title="folder.attributes.name" :projects="folder.attributes.total_projects" :time="folder.attributes.created_at"/>
+        <folder-list v-for="folder in $store.state.folders" :key="'folder' + folder.id" :id="folder.id" :folder="folder"/>
       </div>
     </section>
     <section class="project-wrapper">
     <div class="project-list">
-      <project-list v-for="project in singleProjects" :key="'project' + project.id" :name="project.attributes.name" :identifier="project.attributes.identifier" :price="project.attributes.price.amount_euro" :sourceLanguage="project.attributes.source_language" :targetLanguages="project.attributes.target_languages" :status="project.attributes.status" :workflow="project.attributes.workflow" :progress="project.attributes.progress.percent" :createdAt="project.attributes.created_at" :updatedAt="project.attributes.updated_at"/>
+      <project-list v-for="project in $store.state.singleProjects" :key="'project' + project.id" :project="project"/>
     </div>
   </section>
   </main>
@@ -22,20 +22,6 @@ export default {
   components: {
     FolderList,
     ProjectList
-  },
-  computed: {
-    folders() {
-      return this.$store.state.folders
-    },
-    singleProjects() {
-      return this.$store.state.singleProjects
-    }
-  },
-  created() {
-    this.$store.dispatch("getToken").then(() => {
-      this.$store.dispatch("getFolders")
-      this.$store.dispatch("getSingleProjects")
-    })
   }
 }
 </script>

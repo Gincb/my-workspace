@@ -9,6 +9,12 @@
 export default {
   name: 'App',
   components: {
+  },
+  created() {
+    this.$store.dispatch("getToken").then(() => {
+      this.$store.dispatch("getFolders")
+      this.$store.dispatch("getSingleProjects")
+    })
   }
 }
 </script>

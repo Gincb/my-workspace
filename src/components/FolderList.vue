@@ -1,17 +1,17 @@
 <template>
-  <router-link :to="{ name:'Folder', params:{id: id}, query: {folderName: title }}">
+  <router-link :to="{ name:'Folder', params:{id: folder.id}, query: {folderName: folder.attributes.name }}">
     <div>
         <folder-icon class="folder-icon" :color="'#377bdc'"/>
-        <h1>{{ title }}</h1>
-        <h2>{{ projects }} Projects</h2>
+        <h1>{{ folder.attributes.name }}</h1>
+        <h2>{{ folder.attributes.total_projects }} Projects</h2>
         <h2>
         Created on
         {{
-            getMonthName(new Date(time)) +
+            getMonthName(new Date(folder.attributes.created_at)) +
             " " +
-            new Date(time).getDate() +
+            new Date(folder.attributes.created_at).getDate() +
             ", " +
-            new Date(time).getFullYear()
+            new Date(folder.attributes.created_at).getFullYear()
         }}
         </h2>
     </div>
@@ -23,7 +23,7 @@ import FolderIcon from './../assets/FolderIcon'
 
 export default {
   name: 'FolderList',
-  props: [ 'id', 'title', 'projects', 'time'],
+  props: [ 'folder' ],
   components: {FolderIcon},
   methods: {
     getMonthName (date) {
@@ -55,7 +55,7 @@ export default {
     }
   },
   created () {
-    this.checkTimeDifference(this.time)
+    this.checkTimeDifference(this.folder.attributes.created_at)
   }
 }
 </script>
