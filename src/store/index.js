@@ -18,10 +18,17 @@ const state = {
 
 //to handle state
 const getters = {
-  authStatus: state => state.status,
 }
 
 const actions = {
+  loading({commit}) {
+    commit('REQUEST')
+  },
+
+  success({commit}) {
+    commit('SUCCESS')
+  },
+
   getToken() {
     return new Promise((resolve, reject) => {
       axios.post('https://api.platform.sandbox.easytranslate.com/oauth/token', 
@@ -49,17 +56,14 @@ const actions = {
   },
 
   getFolders({ commit }) {
-    commit('auth_request')
     axios.get('https://api.platform.sandbox.easytranslate.com/api/v1/teams/developer-account/folders',
     {
       Authorization: Cookies.get('tokenType') + ' ' + Cookies.get('accessToken')
     })
     .then(response => {
       commit('SET_FOLDERS', response.data.data)
-      commit('auth_success')
     }), 
     (error) => {
-      commit('auth_error')
       console.log(error)
     }
   },
@@ -83,7 +87,6 @@ const actions = {
       Authorization: Cookies.get('tokenType') + ' ' + Cookies.get('accessToken')
     })
     .then(response => {
-      console.log(response.data)
       commit('SET_FOLDER_PROJECTS', response.data.included)
     }), 
     (error) => {
@@ -94,14 +97,11 @@ const actions = {
   
 //to handle mutations
 const mutations = {
-  auth_request(state){
+  REQUEST(state){
     state.status = 'loading'
   },
-  auth_success(state){
+  SUCCESS(state){
     state.status = 'success'
-  },
-  auth_error(state){
-    state.status = 'error'
   },
   SET_FOLDERS(state, folders) {
     state.folders = folders

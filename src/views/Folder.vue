@@ -1,7 +1,8 @@
 <template>
   <div class="projects-folder">
     <router-link class="title-router" :to="{name: 'MyWorkspace'}">My Workspace 🠒 </router-link><span class="title-router">{{this.$route.query.folderName}}</span>
-    <div class="project-list">
+    <empty-folder v-if="folderProjects.length === 0"/>
+    <div v-else class="project-list">
       <project-list v-for="project in folderProjects" :key="'project' + project.id" :project="project"/>
     </div>
   </div>
@@ -9,19 +10,22 @@
 
 <script>
 import ProjectList from '../components/ProjectList.vue'
+import EmptyFolder from '../components/EmptyFolder.vue'
 
 export default {
   name: 'Folder',
-  components: { ProjectList },
+  components: { ProjectList, EmptyFolder },
   computed: {
     folderProjects() {
       return this.$store.state.folderProjects
     }
   },
-  created() {
+  mounted() {
     this.$store.dispatch("getToken").then(() => {
       this.$store.dispatch("getFolderProjects", this.$route.params.id)
-    })
+    }).then(() => {
+        this.$store.dispatch("success")
+      })
   }
 }
 </script>

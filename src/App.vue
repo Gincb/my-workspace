@@ -1,19 +1,29 @@
 <template>
-  <div id="app">
+  <bounce-loader class="loader" v-if="$store.state.status == 'loading'" :color="'#377bdc'"/>
+  <div v-else-if="$store.state.status == 'success'" id="app">
+    <main-header/>
     <router-view/>
   </div>
 </template>
 
 <script>
+import MainHeader from './components/headers/MainHeader.vue'
+import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
 
 export default {
   name: 'App',
   components: {
+    MainHeader,
+    BounceLoader
   },
   created() {
-    this.$store.dispatch("getToken").then(() => {
-      this.$store.dispatch("getFolders")
-      this.$store.dispatch("getSingleProjects")
+    this.$store.dispatch("loading").then(() => {
+      this.$store.dispatch("getToken").then(() => {
+        this.$store.dispatch("getFolders")
+        this.$store.dispatch("getSingleProjects")
+      }).then(() => {
+        this.$store.dispatch("success")
+      })
     })
   }
 }
@@ -34,6 +44,14 @@ body, html {
 
 html::-webkit-scrollbar {
   display: none;
+}
+
+.loader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #app {
